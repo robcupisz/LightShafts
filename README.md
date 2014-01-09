@@ -9,9 +9,9 @@ A light shafts (aka light scattering, aka volumetric shadows) effect for Unity.
 
 Download
 --------
-Download as a [Unity package](http://files.unity3d.com/rcupisz/LightShafts.unitypackage).
--or-
-Check out this repo into a subfolder of your Unity project, e.g. `Assets/LightShafts/`
+Download as a [Unity package](http://files.unity3d.com/rcupisz/LightShafts.unitypackage).  
+-or-  
+Check out this repo into a subfolder of your Unity project (visible meta files), e.g. `Assets/LightShafts/`
 
 Light shafts require Unity Pro and should work on Windows (DX9 and DX11) and OSX.
 
