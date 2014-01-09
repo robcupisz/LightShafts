@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 0109504c2f6a31b4498a8fd6a490584a
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - m_DepthShader: {fileID: 4800000, guid: 7e188a1e08ecfae4785bed08b1013219, type: 3}
+  - m_CoordShader: {fileID: 4800000, guid: 170533b360a07f945b98b5d9d11bff19, type: 3}
+  - m_DepthBreaksShader: {fileID: 4800000, guid: 8675ad07e6cda494d977506a7a2a8fbd,
+      type: 3}
+  - m_RaymarchShader: {fileID: 4800000, guid: 8b94af9deac0e2d4e9523f6090a3e61e, type: 3}
+  - m_InterpolateAlongRaysShader: {fileID: 4800000, guid: b4040e961c997484e824ff979a17c3c0,
+      type: 3}
+  - m_SamplePositionsShader: {fileID: 4800000, guid: 328e45223da3ee24a9b9bc2020d76aa4,
+      type: 3}
+  - m_FinalInterpolationShader: {fileID: 4800000, guid: 3fe6f8dd2066bc741806972899aa82f6,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
