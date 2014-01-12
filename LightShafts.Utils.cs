@@ -40,7 +40,6 @@ public partial class LightShafts : MonoBehaviour
 	void OnDrawGizmosSelected()
 	{
 		UpdateLightType();
-		m_MainCamera = Camera.main;
 		
 		Gizmos.color = Color.yellow;
 		if (directional)
@@ -104,16 +103,16 @@ public partial class LightShafts : MonoBehaviour
 	{
 		Vector3 lightPos = transform.position;
 		if (directional)
-			lightPos = m_MainCamera.transform.position + transform.forward;
+			lightPos = m_CurrentCamera.transform.position + transform.forward;
 
-		Vector3 lightViewportPos3 = m_MainCamera.WorldToViewportPoint(lightPos);
+		Vector3 lightViewportPos3 = m_CurrentCamera.WorldToViewportPoint(lightPos);
 		return new Vector4(lightViewportPos3.x*2.0f - 1.0f, lightViewportPos3.y*2.0f - 1.0f, 0, 0);
 	}
 
 	bool IsVisible()
 	{
 		// Intersect against spot light's OBB (or light frustum's OBB), so AABB in it's space
-		Matrix4x4 lightToCameraProjection = m_MainCamera.projectionMatrix * m_MainCamera.worldToCameraMatrix * transform.localToWorldMatrix;
+		Matrix4x4 lightToCameraProjection = m_CurrentCamera.projectionMatrix * m_CurrentCamera.worldToCameraMatrix * transform.localToWorldMatrix;
 		return GeometryUtility.TestPlanesAABB(GeometryUtility.CalculateFrustumPlanes(lightToCameraProjection), GetBoundsLocal());
 	}
 
@@ -123,11 +122,11 @@ public partial class LightShafts : MonoBehaviour
 		// Just check if any vertex is behind the near plane.
 		// TODO: same for directional
 		Vector3[] vertices = m_SpotMesh.vertices;
-		float nearPlaneFudged = m_MainCamera.nearClipPlane - 0.001f;
+		float nearPlaneFudged = m_CurrentCamera.nearClipPlane - 0.001f;
 		Transform t = transform;
 		for (int i = 0; i < vertices.Length; i++)
 		{
-			float z = m_MainCamera.WorldToViewportPoint(t.TransformPoint(vertices[i])).z;
+			float z = m_CurrentCamera.WorldToViewportPoint(t.TransformPoint(vertices[i])).z;
 			if (z < nearPlaneFudged)
 				return true;
 		}
@@ -147,15 +146,15 @@ public partial class LightShafts : MonoBehaviour
 
 	void GetFrustumRays(out Matrix4x4 frustumRays, out Vector3 cameraPosLocal)
 	{
-		float far = m_MainCamera.farClipPlane;
-		Vector3 cameraPos = m_MainCamera.transform.position;
+		float far = m_CurrentCamera.farClipPlane;
+		Vector3 cameraPos = m_CurrentCamera.transform.position;
 		Matrix4x4 m = GetBoundsMatrix().inverse;
 		Vector2[] uvs = new Vector2[] {new Vector2(0, 0), new Vector2(1, 0), new Vector2(1, 1), new Vector2(0, 1)};
 		frustumRays = new Matrix4x4();
 
 		for (int i = 0; i < 4; i++)
 		{
-			Vector3 ray = m_MainCamera.ViewportToWorldPoint(new Vector3(uvs[i].x, uvs[i].y, far)) - cameraPos;
+			Vector3 ray = m_CurrentCamera.ViewportToWorldPoint(new Vector3(uvs[i].x, uvs[i].y, far)) - cameraPos;
 			ray = m.MultiplyVector(ray);
 			frustumRays.SetRow(i, ray);
 		}
@@ -175,6 +174,28 @@ public partial class LightShafts : MonoBehaviour
 
 	float GetDepthThresholdAdjusted()
 	{
-		return m_DepthThreshold/m_MainCamera.farClipPlane;
+		return m_DepthThreshold/m_CurrentCamera.farClipPlane;
+	}
+
+	bool CheckCamera()
+	{
+		if (m_Cameras == null)
+			return false;
+
+		foreach (Camera cam in m_Cameras)
+			if (cam == m_CurrentCamera)
+				return true;
+
+		return false;
+	}
+
+	public void UpdateCameraDepthMode()
+	{
+		if (m_Cameras == null)
+			return;
+
+		foreach(Camera cam in m_Cameras)
+			if (cam)
+				cam.depthTextureMode |= DepthTextureMode.Depth;
 	}
 }

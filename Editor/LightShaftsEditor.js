@@ -6,7 +6,8 @@
 class LightShaftsEditor extends Editor 
 {
 	var so : SerializedObject;	
-		
+	
+	var cameras : SerializedProperty;
 	var shadowmapMode : SerializedProperty;
 	var size : SerializedProperty;
 	var near : SerializedProperty;
@@ -37,6 +38,7 @@ class LightShaftsEditor extends Editor
 	function OnEnable () {
 		so = new SerializedObject (target);
 			
+		cameras = so.FindProperty("m_Cameras");
 		shadowmapMode = so.FindProperty("m_ShadowmapMode");
 		size = so.FindProperty("m_Size");
 		near = so.FindProperty("m_SpotNear");
@@ -97,7 +99,11 @@ class LightShaftsEditor extends Editor
 			EditorGUILayout.HelpBox("Directional or spot lights only.", MessageType.Warning, true);
 			return;
 		}
-		
+
+		EditorGUI.BeginChangeCheck();
+		EditorGUILayout.PropertyField(cameras, true);
+		var updateCameraDepthMode = EditorGUI.EndChangeCheck();
+
 		Label("Volumetric shadow");
 		
 		if (effect.directional)
@@ -111,10 +117,10 @@ class LightShaftsEditor extends Editor
 		}
 		EditorGUILayout.PropertyField (cullingMask, new GUIContent("Culling mask"));
 
-		GUI.changed = false;
+		EditorGUI.BeginChangeCheck();
 		EditorGUILayout.PropertyField (shadowmapMode, new GUIContent("Shadowmap mode"));
 		if (shadowmapMode.enumValueIndex == LightShaftsShadowmapMode.Static) {
-			if (GUILayout.Button("Update shadowmap") || GUI.changed) {
+			if (GUILayout.Button("Update shadowmap") || EditorGUI.EndChangeCheck()) {
 				effect.SetShadowmapDirty();
 				EditorUtility.SetDirty(target);
 			}
@@ -142,10 +148,9 @@ class LightShaftsEditor extends Editor
 		var updateLUTs = false;
 		if (attenuationCurveOn.boolValue)
 		{
-			GUI.changed = false;
+			EditorGUI.BeginChangeCheck();
 			attenuationCurve.animationCurveValue = EditorGUILayout.CurveField (GUIContent ("Attenuation curve"), attenuationCurve.animationCurveValue, Color.white, Rect (0.0,0.0,1.0,1.0));
-			if (GUI.changed) 
-				updateLUTs = true;
+			updateLUTs = EditorGUI.EndChangeCheck();
 		}
 		else
 		{
@@ -181,6 +186,8 @@ class LightShaftsEditor extends Editor
 		CheckParamBounds();
 		so.ApplyModifiedProperties();
 		if (updateLUTs)
-			(so.targetObject as LightShafts).gameObject.SendMessage ("UpdateLUTs");
+			effect.UpdateLUTs();
+		if (updateCameraDepthMode)
+			effect.UpdateCameraDepthMode();
 	}
 }

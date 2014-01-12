@@ -7,7 +7,10 @@ public partial class LightShafts : MonoBehaviour
 {
 	public void Start()
 	{
-		Camera.main.depthTextureMode |= DepthTextureMode.Depth;
+		if (m_Cameras == null || m_Cameras.Length == 0)
+			m_Cameras = new Camera[]{Camera.main};
+
+		UpdateCameraDepthMode();
 	}
 
 	void UpdateShadowmap()
@@ -198,11 +201,11 @@ public partial class LightShafts : MonoBehaviour
 		// so the shader will get confused whether to counter the flip or not.
 		// The incorrectly detected case is when rendering straight to the screen, so not in deferred and no image effects.
 		bool enable = System.Convert.ToSingle(Application.unityVersion.Substring(0, 3)) < 4.5f;
-		enable &= m_MainCamera.actualRenderingPath != RenderingPath.DeferredLighting;
+		enable &= m_CurrentCamera.actualRenderingPath != RenderingPath.DeferredLighting;
 		if (enable)
 		{
 			// If you have any image effects not deriving from PostEffectsBase, include them in this check too.
-			MonoBehaviour imageEffect = m_MainCamera.GetComponent("PostEffectsBase") as MonoBehaviour;
+			MonoBehaviour imageEffect = m_CurrentCamera.GetComponent("PostEffectsBase") as MonoBehaviour;
 			enable &= imageEffect == null || !imageEffect.enabled;
 		}
 		SetKeyword(enable, "FLIP_WORKAROUND_ON", "FLIP_WORKAROUND_OFF");
@@ -210,12 +213,8 @@ public partial class LightShafts : MonoBehaviour
 
 	public void OnRenderObject ()
 	{
-		m_MainCamera = Camera.main;
-		// Can't really force the scene view camera to DepthTextureMode.Depth, so stick to the main cam.
-		if (m_MainCamera != Camera.current)
-			return;
-
-		if (!IsVisible())
+		m_CurrentCamera = Camera.current;
+		if (!CheckCamera() || !IsVisible())
 			return;
 
 		// Prepare

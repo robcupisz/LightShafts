@@ -144,7 +144,6 @@ Transform:
   m_LocalScale: {x: 3.65294385, y: 3.65294385, z: 3.65294385}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootMapOrder: 0
 --- !u!1 &59238562
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,7 +170,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootMapOrder: 0
 --- !u!1 &153204842
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,7 +239,6 @@ Transform:
   m_LocalScale: {x: 1.89010262, y: 1.89010262, z: 1.89010262}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootMapOrder: 0
 --- !u!1 &402865510
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,11 +306,8 @@ Camera:
     m_Bits: 4294967295
   m_RenderingPath: 2
   m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
   m_HDR: 0
   m_OcclusionCulling: 1
-  m_StereoConvergence: 10
-  m_StereoSeparation: .0219999999
 --- !u!4 &402865515
 Transform:
   m_ObjectHideFlags: 0
@@ -325,7 +319,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootMapOrder: 0
 --- !u!1 &475369437
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,7 +388,6 @@ Transform:
   m_LocalScale: {x: 1.66889369, y: 1.66889369, z: 1.66889369}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootMapOrder: 0
 --- !u!1 &507516642
 GameObject:
   m_ObjectHideFlags: 0
@@ -465,7 +457,6 @@ Transform:
   m_LocalScale: {x: 6.24883938, y: 6.24883938, z: 6.24883938}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootMapOrder: 0
 --- !u!1 &1171954671
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,7 +520,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootMapOrder: 0
 --- !u!114 &1171954674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -540,8 +530,11 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0109504c2f6a31b4498a8fd6a490584a, type: 3}
   m_Name: 
-  m_ScriptingClassIdentifier: Assembly-CSharp::LightShafts
+  m_EditorClassIdentifier: 
   m_ShadowmapMode: 0
+  m_Cameras:
+  - {fileID: 402865514}
+  m_CurrentCamera: {fileID: 402865514}
   m_Size: {x: 10, y: 10, z: 20}
   m_SpotNear: .0500000007
   m_SpotFar: 1
@@ -660,4 +653,3 @@ Transform:
   m_LocalScale: {x: 1.80127406, y: 7.80497169, z: 1.80127406}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootMapOrder: 0

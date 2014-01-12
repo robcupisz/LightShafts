@@ -5,7 +5,8 @@ public partial class LightShafts : MonoBehaviour
 {
 	public LightShaftsShadowmapMode m_ShadowmapMode = LightShaftsShadowmapMode.Dynamic;
 	LightShaftsShadowmapMode m_ShadowmapModeOld = LightShaftsShadowmapMode.Dynamic;
-	Camera m_MainCamera;
+	public Camera[] m_Cameras;
+	public Camera m_CurrentCamera;
 	bool m_ShadowmapDirty = true;
 	public Vector3 m_Size = new Vector3(10, 10, 20);
 	public float m_SpotNear = 0.1f;
@@ -82,7 +83,7 @@ public partial class LightShafts : MonoBehaviour
 			UpdateLUTs ();
 	}
 	
-	void UpdateLUTs ()
+	public void UpdateLUTs ()
 	{
 		InitLUTs ();
 

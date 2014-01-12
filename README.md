@@ -55,7 +55,6 @@ What's next?
 - Re-using the internal shadowmaps instead of rendering new ones - hmm...
 - Cookies: for directional lights too (need an offset setting) and premultiply with color filter, if both are enabled.
 - Make sample visualisation work on dx9 and opengl as well.
-- Oculus Rift and multi-camera setups: right now the effect will only render for the main camera, but you can easily change it to work with your specific camera setup. I'm just not sure how the UI should look like.
 
 Links
 -----
