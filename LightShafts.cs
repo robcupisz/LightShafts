@@ -7,6 +7,8 @@ public partial class LightShafts : MonoBehaviour
 {
 	public void Start()
 	{
+		CheckMinRequirements();
+
 		if (m_Cameras == null || m_Cameras.Length == 0)
 			m_Cameras = new Camera[]{Camera.main};
 
@@ -214,7 +216,7 @@ public partial class LightShafts : MonoBehaviour
 	public void OnRenderObject ()
 	{
 		m_CurrentCamera = Camera.current;
-		if (!CheckCamera() || !IsVisible())
+		if (!m_MinRequirements || !CheckCamera() || !IsVisible())
 			return;
 
 		// Prepare

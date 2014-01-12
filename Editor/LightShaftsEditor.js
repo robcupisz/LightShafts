@@ -93,6 +93,12 @@ class LightShaftsEditor extends Editor
 		
 		var effect : LightShafts = target as LightShafts;
 
+		if (!effect.CheckMinRequirements())
+		{
+			EditorGUILayout.HelpBox("Render texture support (including RFloat and RGFloat) and shader model 3.0 required.", MessageType.Error, true);
+			return;	
+		}
+
 		effect.UpdateLightType();
 		if (!effect.directional && !effect.spot)
 		{

@@ -66,6 +66,7 @@ public partial class LightShafts : MonoBehaviour
 
 	LightType m_LightType = LightType.Directional;
 	bool m_DX11Support = false;
+	bool m_MinRequirements = false;
 
 	void InitLUTs ()
 	{
@@ -239,10 +240,24 @@ public partial class LightShafts : MonoBehaviour
 		m_LightType = light.type;
 	}
 
+	public bool CheckMinRequirements()
+	{
+		if (m_MinRequirements)
+			return true;
+
+		m_DX11Support = SystemInfo.graphicsShaderLevel >= 50;
+
+		m_MinRequirements = SystemInfo.graphicsShaderLevel >= 30;
+		m_MinRequirements &= SystemInfo.supportsRenderTextures;
+		m_MinRequirements &= SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.RGFloat);
+		m_MinRequirements &= SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.RFloat);
+
+		return m_MinRequirements;
+	}
+
 	void InitResources()
 	{
 		UpdateLightType();
-		m_DX11Support = SystemInfo.graphicsShaderLevel >= 50;
 		
 		InitMaterials();
 		InitEpipolarTextures();
