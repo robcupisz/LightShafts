@@ -7,6 +7,8 @@ A light shafts (aka light scattering, aka volumetric shadows) effect for Unity.
 ![spot light](http://files.unity3d.com/rcupisz/LightShafts/0.png)
 ![directional and spot light](http://files.unity3d.com/rcupisz/LightShafts/1.png)
 
+Performance: in 1080p on GTX580 about 1.0-1.5ms for a full screen light, down to 0.2ms if the light is smaller or partially occluded.
+
 Download
 --------
 Download as a [Unity package](http://files.unity3d.com/rcupisz/LightShafts.unitypackage).  
@@ -29,7 +31,7 @@ It's important to tweak the effect's quality settings to **get as few red (expen
 
 - Start out by tweaking the *size* (directional light) or *spot angle* and *volume start and end* (spot light) to get the yellow box/frustum in the scene view tightly around your target area.
 - Set the *culling mask* to only include objects which need to cast volumetric shadow (doesn't matter if the *shadowmap mode* is static, as then the shadowmap is only rendered at startup).
-- Enable *show samples*.
+- Enable *show samples* (DX11 only for now).
 - Tweak *shadowmap resolution* to be as low as possible, but still be able to make out the detail in silhouettes of shadow casters.
 - *Samples across rays* - that many samples - and rays - around the light, when looking at it.
 - *Samples along rays* - that many *potential* samples along each ray, but they only become actual samples if they encounter a difference in depth or are forced by the *force samples every* setting.
