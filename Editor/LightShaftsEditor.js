@@ -139,7 +139,7 @@ class LightShaftsEditor extends Editor
 		{
 			EditorGUILayout.PropertyField (brightnessColored, new GUIContent("Brightness (colored)"));
 			EditorGUILayout.PropertyField (colorFilterMask, new GUIContent("Color filters mask"));
-			EditorGUILayout.Slider (colorBalance, 0, 1, new GUIContent("Color balance"));
+			EditorGUILayout.Slider (colorBalance, 0.1f, 1, new GUIContent("Color balance"));
 		}
 		else
 		{

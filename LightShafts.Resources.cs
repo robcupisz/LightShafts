@@ -23,6 +23,7 @@ public partial class LightShafts : MonoBehaviour
 	RenderTexture m_Shadowmap;
 	public Shader m_DepthShader;
 	RenderTexture m_ColorFilter;
+	public Shader m_ColorFilterShader;
 	public bool m_Colored = false;
 	public float m_ColorBalance = 1.0f;
 	

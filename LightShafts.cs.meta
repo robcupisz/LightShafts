@@ -3,7 +3,10 @@ guid: 0109504c2f6a31b4498a8fd6a490584a
 MonoImporter:
   serializedVersion: 2
   defaultReferences:
+  - m_CurrentCamera: {instanceID: 0}
   - m_DepthShader: {fileID: 4800000, guid: 7e188a1e08ecfae4785bed08b1013219, type: 3}
+  - m_ColorFilterShader: {fileID: 4800000, guid: 78da0b5fc3a6e8a469d047d71187e7ef,
+      type: 3}
   - m_CoordShader: {fileID: 4800000, guid: 170533b360a07f945b98b5d9d11bff19, type: 3}
   - m_DepthBreaksShader: {fileID: 4800000, guid: 8675ad07e6cda494d977506a7a2a8fbd,
       type: 3}

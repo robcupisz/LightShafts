@@ -63,7 +63,7 @@ public partial class LightShafts : MonoBehaviour
 			m_ShadowmapCamera.targetTexture = m_ColorFilter;
 			m_ShadowmapCamera.cullingMask = m_ColorFilterMask;
 			m_ShadowmapCamera.backgroundColor = new Color(m_ColorBalance, m_ColorBalance, m_ColorBalance);
-			m_ShadowmapCamera.Render();
+			m_ShadowmapCamera.RenderWithShader(m_ColorFilterShader, "");
 		}
 
 		m_ShadowmapDirty = false;

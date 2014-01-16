@@ -825,6 +825,7 @@ MonoBehaviour:
   m_MinDistFromCamera: 0
   m_ShadowmapRes: 1024
   m_DepthShader: {fileID: 4800000, guid: 7e188a1e08ecfae4785bed08b1013219, type: 3}
+  m_ColorFilterShader: {fileID: 4800000, guid: 78da0b5fc3a6e8a469d047d71187e7ef, type: 3}
   m_Colored: 0
   m_ColorBalance: 1
   m_EpipolarLines: 512
