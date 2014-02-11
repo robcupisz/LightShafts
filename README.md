@@ -19,6 +19,8 @@ Light shafts require Unity Pro and should work on Windows (DX9 and DX11) and OSX
 
 *Warning*, for now the status is "works for me", so watch out for bugs. Pull requests with fixes welcome.
 
+Version 1.
+
 Usage
 -----
 Add the LightShafts.cs script to a directional light or spot light and tweak the settings.
