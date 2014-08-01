@@ -68,6 +68,8 @@ public partial class LightShafts : MonoBehaviour
 	LightType m_LightType = LightType.Directional;
 	bool m_DX11Support = false;
 	bool m_MinRequirements = false;
+	
+	public float m_DrawDistance = 100.0f;
 
 	void InitLUTs ()
 	{

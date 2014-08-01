@@ -19,6 +19,7 @@ CGPROGRAM
 #pragma multi_compile QUAD_SHAFTS FRUSTUM_SHAFTS
 #pragma multi_compile DIRECTIONAL_SHAFTS SPOT_SHAFTS
 #pragma multi_compile FLIP_WORKAROUND_OFF FLIP_WORKAROUND_ON
+#pragma multi_compile LS_FOG_OFF LS_FOG_LINEAR LS_FOG_EXP LS_FOG_EXP2
 #include "UnityCG.cginc"
 #include "Shared.cginc"
 
@@ -37,6 +38,10 @@ float4 _CoordTexDim;
 float4 _ScreenTexDim;
 float _DepthThreshold;
 float _ShowSamplesBackgroundFade;
+
+half4 unity_FogDensity;
+half4 unity_FogEnd;
+half4 unity_FogStart;
 
 inline void FixFlip(inout float x)
 {
@@ -187,7 +192,19 @@ float4 frag(v2f i) : COLOR
 
 	half depth = UNITY_SAMPLE_DEPTH(tex2D (_CameraDepthTexture, uv));
 	depth = Linear01Depth(depth);
-
+	
+	// Fog fadeout based on sample depth
+	float dephtInWorldUnits = depth * _ProjectionParams.z; // _ProjectionParams.z = camera far plane
+	#if defined(LS_FOG_LINEAR)
+		half fogAmount = saturate((unity_FogEnd.x - dephtInWorldUnits) / (unity_FogEnd.x - unity_FogStart.x));			
+	#elif defined(LS_FOG_EXP)
+		half fogAmount = dephtInWorldUnits * unity_FogDensity;
+		fogAmount = saturate(1 / exp(fogAmount));
+	#elif defined(LS_FOG_EXP2)
+		half fogAmount = dephtInWorldUnits * unity_FogDensity;
+		fogAmount = saturate(1 / exp(fogAmount*fogAmount));
+	#endif
+	
 	float near, far, rayLength;
 	float3 rayN;
 	IntersectVolume(uv, near, far, rayN, rayLength);
@@ -202,6 +219,11 @@ float4 frag(v2f i) : COLOR
 	#else
 		float4 c = step(near/rayLength, depth);
 		c *= SampleLighting(unwrapped, depth).xyzz;
+	#endif
+	
+	// Fade out with fog after 
+	#if defined(LS_FOG_LINEAR) || defined(LS_FOG_EXP) || defined(LS_FOG_EXP2)
+		c.xyz *= fogAmount;
 	#endif
 
 	#if defined(SHOW_SAMPLES_ON)
