@@ -163,7 +163,7 @@ public partial class LightShafts : MonoBehaviour
 		m_FinalInterpolationMaterial.SetFloat("_ShowSamplesBackgroundFade", m_ShowSamplesBackgroundFade);
 	}
 
-	void Raymarch(int width, int height, Vector4 lightPos)
+	void Raymarch(int width, int height, Vector4 lightPos, float fade)
 	{
 		SetFrustumRays(m_RaymarchMaterial);
 
@@ -177,7 +177,7 @@ public partial class LightShafts : MonoBehaviour
 		m_RaymarchMaterial.SetTexture("_Shadowmap", m_Shadowmap);
 		float brightness = m_Colored ? m_BrightnessColored/m_ColorBalance : m_Brightness;
 		brightness *= light.intensity;
-		m_RaymarchMaterial.SetFloat("_Brightness", brightness);
+		m_RaymarchMaterial.SetFloat("_Brightness", brightness*fade);
 		m_RaymarchMaterial.SetFloat("_Extinction", -m_Extinction);
 		m_RaymarchMaterial.SetVector("_ShadowmapDim", new Vector4(shadowmapWidth, shadowmapHeight, 1.0f / shadowmapWidth, 1.0f / shadowmapHeight));
 		m_RaymarchMaterial.SetVector("_ScreenTexDim", new Vector4(width, height, 1.0f / width, 1.0f / height));
@@ -218,6 +218,12 @@ public partial class LightShafts : MonoBehaviour
 		m_CurrentCamera = Camera.current;
 		if (!m_MinRequirements || !CheckCamera() || !IsVisible())
 			return;
+			
+		// Distance based cutoff (fade out @ last 10%)
+		// NOTE: Fade is passed into Raymarch to fade out the result in the shader
+		float fade = Mathf.Clamp01((1.0f - (Vector3.Distance(transform.position,m_CurrentCamera.transform.position) / m_DrawDistance))*10.0f);
+		if( fade <= 0.0f )
+			return;
 
 		// Prepare
 		RenderBuffer depthBuffer = Graphics.activeDepthBuffer;
@@ -234,12 +240,25 @@ public partial class LightShafts : MonoBehaviour
 		SetKeyword(directional, "DIRECTIONAL_SHAFTS", "SPOT_SHAFTS");
 		RenderCoords(width, height, lightPos);
 		RenderInterpolationTexture(lightPos);
-		Raymarch(width, height, lightPos);
+		Raymarch(width, height, lightPos, fade);
 		InterpolateAlongRays(lightPos);
 
 		ShowSamples(width, height, lightPos);
 
-		// Final interpolation and blending onto the screen
+		// Fill fog shader keywords
+		Shader.DisableKeyword("LS_FOG_LINEAR");
+		Shader.DisableKeyword("LS_FOG_EXP");
+		Shader.DisableKeyword("LS_FOG_EXP2");
+		if( RenderSettings.fog )
+		{
+			switch( RenderSettings.fogMode ) {
+			case FogMode.Linear: Shader.EnableKeyword("LS_FOG_LINEAR"); break;
+			case FogMode.Exponential: Shader.EnableKeyword("LS_FOG_EXP"); break;
+			case FogMode.ExponentialSquared: Shader.EnableKeyword("LS_FOG_EXP2"); break;
+			};
+		}
+		
+		// Final interpolation and blending onto the screen	
 		FlipWorkaround();
 		SetFrustumRays(m_FinalInterpolationMaterial);
 		m_FinalInterpolationMaterial.SetTexture("_InterpolationEpi", m_InterpolationEpi);
