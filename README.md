@@ -19,7 +19,7 @@ Light shafts require Unity Pro and should work on Windows (DX9 and DX11) and OSX
 
 *Warning*, for now the status is "works for me", so watch out for bugs. Pull requests with fixes welcome.
 
-Version 1.
+Version 2. Verified in Unity 4.5.5f1.
 
 Usage
 -----

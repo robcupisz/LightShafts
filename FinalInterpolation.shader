@@ -18,7 +18,7 @@ CGPROGRAM
 #pragma multi_compile SHOW_SAMPLES_OFF SHOW_SAMPLES_ON
 #pragma multi_compile QUAD_SHAFTS FRUSTUM_SHAFTS
 #pragma multi_compile DIRECTIONAL_SHAFTS SPOT_SHAFTS
-#pragma multi_compile FLIP_WORKAROUND_OFF FLIP_WORKAROUND_ON
+
 #include "UnityCG.cginc"
 #include "Shared.cginc"
 
@@ -43,12 +43,7 @@ inline void FixFlip(inout float x)
 	// Flip upside-down on DX-like platforms, if the buffer
 	// we're rendering into is flipped as well.
 	#if UNITY_UV_STARTS_AT_TOP
-	// FLIP_WORKAROUND_OFF check is only needed in pre 4.5 Unity, where _ProjectionParams.x has an incorrect value.
-	// Can be safely removed in Unity 4.5.
-	#if !defined(FLIP_WORKAROUND_ON)
-		if (_ProjectionParams.x < 0)
-			x *= -1.0;
-	#endif
+		x *= _ProjectionParams.x;
 	#endif
 }
 
@@ -56,7 +51,7 @@ inline void FixHalfTexelOffset(inout float2 uv)
 {
 	// DX9 half-texel offset
 	#ifdef SHADER_API_D3D9
-	uv += 0.5*_ScreenTexDim.zw;
+		uv += 0.5*_ScreenTexDim.zw;
 	#endif
 }
 

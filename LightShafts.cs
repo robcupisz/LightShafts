@@ -196,23 +196,6 @@ public partial class LightShafts : MonoBehaviour
 		RenderQuadSections(lightPos);
 	}
 
-	// This can be safely removed in Unity 4.5, along with the corresponding check in the shader.
-	void FlipWorkaround()
-	{
-		// In Unity 4.3 and earlier _ProjectionParams.x doesn't get properly set when not rendering with a camera,
-		// so the shader will get confused whether to counter the flip or not.
-		// The incorrectly detected case is when rendering straight to the screen, so not in deferred and no image effects.
-		bool enable = System.Convert.ToSingle(Application.unityVersion.Substring(0, 3)) < 4.5f;
-		enable &= m_CurrentCamera.actualRenderingPath != RenderingPath.DeferredLighting;
-		if (enable)
-		{
-			// If you have any image effects not deriving from PostEffectsBase, include them in this check too.
-			MonoBehaviour imageEffect = m_CurrentCamera.GetComponent("PostEffectsBase") as MonoBehaviour;
-			enable &= imageEffect == null || !imageEffect.enabled;
-		}
-		SetKeyword(enable, "FLIP_WORKAROUND_ON", "FLIP_WORKAROUND_OFF");
-	}
-
 	public void OnRenderObject ()
 	{
 		m_CurrentCamera = Camera.current;
@@ -240,7 +223,6 @@ public partial class LightShafts : MonoBehaviour
 		ShowSamples(width, height, lightPos);
 
 		// Final interpolation and blending onto the screen
-		FlipWorkaround();
 		SetFrustumRays(m_FinalInterpolationMaterial);
 		m_FinalInterpolationMaterial.SetTexture("_InterpolationEpi", m_InterpolationEpi);
 		m_FinalInterpolationMaterial.SetTexture("_DepthEpi", m_DepthEpi);
