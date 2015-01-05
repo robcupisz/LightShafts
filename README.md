@@ -11,8 +11,6 @@ Performance: in 1080p on GTX580 about 1.0-1.5ms for a full screen light, down to
 
 Download
 --------
-Download as a [Unity package](http://files.unity3d.com/rcupisz/LightShafts.unitypackage).  
--or-  
 Check out this repo into a subfolder of your Unity project (visible meta files), e.g. `Assets/LightShafts/`
 
 Light shafts require Unity Pro and should work on Windows (DX9 and DX11) and OSX.
