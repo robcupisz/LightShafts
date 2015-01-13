@@ -51,7 +51,6 @@ The SunShafts.js effect in standard assets performs a (depth-aware) radial blur 
 What's next?
 ------------
 - I'll probably add the effect to Unity's image effects standard package, when it's done.
-- There are some bugs related to stencil and buffer orientation, which I've fixed for the next Unity release, but for now workarounds for them pollute this code a bit.
 - 1D min/max mipmap optimization: not sure if I'll implement it. It's usefullness is limited to dx11 and non-colored lights without cookies, mostly. Pull requests welcome, though :)
 - Some dithering would be nice to avoid banding in dark scenes.
 - Re-using the internal shadowmaps instead of rendering new ones - hmm...
