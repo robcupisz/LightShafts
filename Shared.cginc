@@ -100,7 +100,7 @@ inline bool Cube(float3 org, float3 dir, out float tnear, out float tfar)
 }
 
 // frustum inscribed in a unit cube centered at 0, apex on x
-#define INF 1.0e38
+#define INF 9.9e8
 inline bool Frustum(float3 org, float3 dir, float apex, out float near, out float far)
 {
 	float2 dirf = float2(0.5 - apex, 0.5); 
