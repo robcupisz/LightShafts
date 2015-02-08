@@ -50,6 +50,7 @@ public partial class LightShafts : MonoBehaviour
 	RenderTexture m_SamplePositions;
 	public Shader m_SamplePositionsShader;
 	Material m_SamplePositionsMaterial;
+	bool m_SamplePositionsShaderCompiles = false;
 	
 	public Shader m_FinalInterpolationShader;
 	Material m_FinalInterpolationMaterial;
@@ -245,6 +246,17 @@ public partial class LightShafts : MonoBehaviour
 		m_LightType = m_Light.type;
 	}
 
+	bool ShaderCompiles(Shader shader)
+	{
+		if (!shader.isSupported)
+		{
+			Debug.LogError("LightShafts' " + shader.name + " didn't compile on this platform.");
+			return false;
+		}
+
+		return true;
+	}
+
 	public bool CheckMinRequirements()
 	{
 		if (m_MinRequirements)
@@ -256,6 +268,24 @@ public partial class LightShafts : MonoBehaviour
 		m_MinRequirements &= SystemInfo.supportsRenderTextures;
 		m_MinRequirements &= SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.RGFloat);
 		m_MinRequirements &= SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.RFloat);
+
+		if (!m_MinRequirements)
+			Debug.LogError("LightShafts require Shader Model 3.0 and render textures (including the RGFloat and RFloat) formats. Disabling.");
+
+		bool shadersCompile = 	ShaderCompiles(m_DepthShader) &&
+								ShaderCompiles(m_ColorFilterShader) &&
+								ShaderCompiles(m_CoordShader) &&
+								ShaderCompiles(m_DepthBreaksShader) &&
+								ShaderCompiles(m_RaymarchShader) &&
+								ShaderCompiles(m_InterpolateAlongRaysShader) &&
+								ShaderCompiles(m_FinalInterpolationShader);
+
+		if (!shadersCompile)
+			Debug.LogError("LightShafts require above shaders. Disabling.");
+
+		m_MinRequirements &= shadersCompile;
+
+		m_SamplePositionsShaderCompiles = ShaderCompiles(m_SamplePositionsShader);
 
 		return m_MinRequirements;
 	}

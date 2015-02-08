@@ -155,7 +155,7 @@ public partial class LightShafts : MonoBehaviour
 
 	void ShowSamples(int width, int height, Vector4 lightPos)
 	{
-		bool showSamples = m_ShowSamples && m_DX11Support;
+		bool showSamples = m_ShowSamples && m_DX11Support && m_SamplePositionsShaderCompiles;
 		SetKeyword(showSamples, "SHOW_SAMPLES_ON", "SHOW_SAMPLES_OFF");
 		if (showSamples)
 			RenderSamplePositions(width, height, lightPos);
