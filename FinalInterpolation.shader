@@ -67,6 +67,7 @@ v2f vert (appdata_img v)
 	#else
 		FixFlip(o.pos.y);
 		o.uv.xy = v.texcoord;
+		o.uv.z = 0;
 		FixHalfTexelOffset(o.uv.xy);
 	#endif
 

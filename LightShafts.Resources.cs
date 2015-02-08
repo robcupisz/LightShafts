@@ -259,9 +259,6 @@ public partial class LightShafts : MonoBehaviour
 
 	public bool CheckMinRequirements()
 	{
-		if (m_MinRequirements)
-			return true;
-
 		m_DX11Support = SystemInfo.graphicsShaderLevel >= 50;
 
 		m_MinRequirements = SystemInfo.graphicsShaderLevel >= 30;
@@ -285,7 +282,7 @@ public partial class LightShafts : MonoBehaviour
 
 		m_MinRequirements &= shadersCompile;
 
-		m_SamplePositionsShaderCompiles = ShaderCompiles(m_SamplePositionsShader);
+		m_SamplePositionsShaderCompiles = m_SamplePositionsShader.isSupported;
 
 		return m_MinRequirements;
 	}
