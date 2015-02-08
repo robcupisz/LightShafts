@@ -17,7 +17,7 @@ public partial class LightShafts : MonoBehaviour
 		if (directional)
 			return new Bounds(new Vector3(0, 0, m_Size.z*0.5f), m_Size);
 
-		Light l = light;
+		Light l = m_Light;
 		Vector3 offset = new Vector3(0, 0, l.range * (m_SpotFar + m_SpotNear) * 0.5f);
 		float height = (m_SpotFar - m_SpotNear) * l.range;
 		float baseSize = Mathf.Tan(l.spotAngle * Mathf.Deg2Rad * 0.5f) * m_SpotFar * l.range * 2.0f;
@@ -50,7 +50,7 @@ public partial class LightShafts : MonoBehaviour
 		else if (spot)
 		{
 			Transform t = transform;
-			Light l = light;
+			Light l = m_Light;
 			Gizmos.matrix = Matrix4x4.TRS(t.position, t.rotation, Vector3.one);
 			Gizmos.DrawFrustum(t.position, l.spotAngle, l.range * m_SpotFar, l.range * m_SpotNear, 1);
 		}

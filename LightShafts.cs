@@ -37,7 +37,7 @@ public partial class LightShafts : MonoBehaviour
 
 		if (directional)
 		{
-			m_ShadowmapCamera.isOrthoGraphic = true;
+			m_ShadowmapCamera.orthographic = true;
 			m_ShadowmapCamera.nearClipPlane = 0;
 			m_ShadowmapCamera.farClipPlane = m_Size.z;
 			m_ShadowmapCamera.orthographicSize = m_Size.y * 0.5f;
@@ -45,10 +45,10 @@ public partial class LightShafts : MonoBehaviour
 		}
 		else
 		{
-			m_ShadowmapCamera.isOrthoGraphic = false;
-			m_ShadowmapCamera.nearClipPlane = m_SpotNear * light.range;
-			m_ShadowmapCamera.farClipPlane = m_SpotFar * light.range;
-			m_ShadowmapCamera.fieldOfView = light.spotAngle;
+			m_ShadowmapCamera.orthographic = false;
+			m_ShadowmapCamera.nearClipPlane = m_SpotNear * m_Light.range;
+			m_ShadowmapCamera.farClipPlane = m_SpotFar * m_Light.range;
+			m_ShadowmapCamera.fieldOfView = m_Light.spotAngle;
 			m_ShadowmapCamera.aspect = 1.0f;
 		}
 		m_ShadowmapCamera.renderingPath = RenderingPath.Forward;
@@ -176,18 +176,18 @@ public partial class LightShafts : MonoBehaviour
 		m_RaymarchMaterial.SetTexture("_InterpolationEpi", m_InterpolationEpi);
 		m_RaymarchMaterial.SetTexture("_Shadowmap", m_Shadowmap);
 		float brightness = m_Colored ? m_BrightnessColored/m_ColorBalance : m_Brightness;
-		brightness *= light.intensity;
+		brightness *= m_Light.intensity;
 		m_RaymarchMaterial.SetFloat("_Brightness", brightness);
 		m_RaymarchMaterial.SetFloat("_Extinction", -m_Extinction);
 		m_RaymarchMaterial.SetVector("_ShadowmapDim", new Vector4(shadowmapWidth, shadowmapHeight, 1.0f / shadowmapWidth, 1.0f / shadowmapHeight));
 		m_RaymarchMaterial.SetVector("_ScreenTexDim", new Vector4(width, height, 1.0f / width, 1.0f / height));
-		m_RaymarchMaterial.SetVector("_LightColor", light.color.linear);
+		m_RaymarchMaterial.SetVector("_LightColor", m_Light.color.linear);
 		m_RaymarchMaterial.SetFloat("_MinDistFromCamera", m_MinDistFromCamera);
 		SetKeyword(m_Colored, "COLORED_ON", "COLORED_OFF");
 		m_RaymarchMaterial.SetTexture("_ColorFilter", m_ColorFilter);
 		SetKeyword(m_AttenuationCurveOn, "ATTENUATION_CURVE_ON", "ATTENUATION_CURVE_OFF");
 		m_RaymarchMaterial.SetTexture("_AttenuationCurveTex", m_AttenuationCurveTex);
-		Texture cookie = light.cookie;
+		Texture cookie = m_Light.cookie;
 		SetKeyword(cookie != null, "COOKIE_TEX_ON", "COOKIE_TEX_OFF");
 		if (cookie != null)
 			m_RaymarchMaterial.SetTexture("_Cookie", cookie);

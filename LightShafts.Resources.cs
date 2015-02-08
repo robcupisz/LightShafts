@@ -65,6 +65,7 @@ public partial class LightShafts : MonoBehaviour
 	public AnimationCurve m_AttenuationCurve;
 	Texture2D m_AttenuationCurveTex;
 
+	Light m_Light;
 	LightType m_LightType = LightType.Directional;
 	bool m_DX11Support = false;
 	bool m_MinRequirements = false;
@@ -202,7 +203,7 @@ public partial class LightShafts : MonoBehaviour
 			m_SpotMesh.hideFlags = HideFlags.HideAndDontSave;
 		}
 
-		Light l = light;
+		Light l = m_Light;
 		if (m_SpotMeshNear != m_SpotNear || m_SpotMeshFar != m_SpotFar || m_SpotMeshAngle != l.spotAngle || m_SpotMeshRange != l.range)
 		{
 			float far = l.range * m_SpotFar;
@@ -238,7 +239,10 @@ public partial class LightShafts : MonoBehaviour
 
 	public void UpdateLightType()
 	{
-		m_LightType = light.type;
+		if (m_Light == null)
+			m_Light = GetComponent<Light>();
+		
+		m_LightType = m_Light.type;
 	}
 
 	public bool CheckMinRequirements()
