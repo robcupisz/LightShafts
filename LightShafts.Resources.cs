@@ -224,7 +224,7 @@ public partial class LightShafts : MonoBehaviour
 			vertices[7] = new Vector3(-halfwidthnear,  halfwidthnear, near);
 			m_SpotMesh.vertices = vertices;
 
-			if (m_SpotMesh.triangles == null || m_SpotMesh.triangles.Length != 36)
+			if (m_SpotMesh.GetTopology( 0 ) != MeshTopology.Triangles || m_SpotMesh.triangles == null || m_SpotMesh.triangles.Length != 36)
 			{
 				//                          far           near          top           right         left          bottom
 				int[] triangles = new int[]{0,1,2, 0,2,3, 6,5,4, 7,6,4, 3,2,6, 3,6,7, 2,1,5, 2,5,6, 0,3,7, 0,7,4, 5,1,0, 5,0,4};
