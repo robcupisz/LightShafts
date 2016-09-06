@@ -64,7 +64,7 @@ void frag (posuv i, out float4 coord : COLOR0, out float4 depth : COLOR1)
 	// Test against the volume if we've hit at all
 	float near, far, rayLength;
 	float3 rayN;
-	if(!IntersectVolume(coord.xy, near, far, rayN, rayLength) || (depth.x < near/rayLength))
+	if(!IntersectVolume(coord.xy, near, far, rayN, rayLength) | (depth.x < near/rayLength))
 	{
 		// When detecting depth breaks, we'll skip this sample (no raymarching)
 		depth *= -1.0;
