@@ -85,7 +85,7 @@ public partial class LightShafts : MonoBehaviour
 	void RenderInterpolationTexture(Vector4 lightPos)
 	{
 		Graphics.SetRenderTarget(m_InterpolationEpi.colorBuffer, m_RaymarchedLightEpi.depthBuffer);
-		if (!m_DX11Support && (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsWebPlayer))
+		if (!m_DX11Support && (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer))
 		{
 			// Looks like in dx9 stencil is not cleared properly with GL.Clear()
 			// Edit: fixed in 4.5, so this hack can be removed
