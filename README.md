@@ -1,3 +1,5 @@
+*Note: I'm working on a more solid and universal volumetrics rendering solution, but it's still WIP (e.g. doesn't support directional lights): [VolumetricLighting](https://github.com/Unity-Technologies/VolumetricLighting)*
+
 Light shafts
 ============
 A light shafts (aka light scattering, aka volumetric shadows) effect for Unity.
@@ -13,11 +15,9 @@ Download
 --------
 Check out this repo into a subfolder of your Unity project (visible meta files), e.g. `Assets/LightShafts/`
 
-Light shafts require Unity Pro and should work on Windows (DX9 and DX11) and OSX.
+Light shafts should work on Windows (DX9 and DX11) and OSX.
 
-*Warning*, for now the status is "works for me", so watch out for bugs. Pull requests with fixes welcome.
-
-Version 2. Verified in Unity 4.5.5f1.
+Version 2. Verified in Unity versions 4.5.5f1 - 5.6.0f3.
 
 Usage
 -----
